@@ -7,6 +7,7 @@ class KeyRandomness:
     SEQUENCE_LENGTH = 20000
     LOWER_FREQUENCY_BOUND = 9654
     UPPER_FREQUENCY_BOUND = 10346
+    MAX_SERIES_LENGTH = 36
 
     def __init__(self, sequence: str) -> None:
         """
@@ -44,3 +45,27 @@ class KeyRandomness:
         if self.LOWER_FREQUENCY_BOUND < count < self.UPPER_FREQUENCY_BOUND:
             return True
         return False
+
+    def check_max_series_length(self) -> bool:
+        """
+        Checks if the binary sequence complies with the maximum series length constraint.
+
+        :return: True if the binary sequence meets the maximum series length requirement, otherwise False.
+        """
+
+        previous_bit = self.input_sequence[0]
+        counter = 1
+
+        for i in range(1, len(self.input_sequence)):
+            bit = self.input_sequence[i]
+
+            if bit == previous_bit:
+                counter += 1
+                if counter >= self.MAX_SERIES_LENGTH:
+                    return False
+            else:
+                counter = 1
+
+            previous_bit = bit
+
+        return True
