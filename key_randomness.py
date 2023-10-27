@@ -8,6 +8,9 @@ class KeyRandomness:
     LOWER_FREQUENCY_BOUND = 9654
     UPPER_FREQUENCY_BOUND = 10346
     MAX_SERIES_LENGTH = 36
+    POKER_M = 4
+    POKER_LOWER_FREQUENCY = 1.03
+    POKER_UPPER_FREQUENCY = 57.4
 
     def __init__(self, sequence: str) -> None:
         """
@@ -69,3 +72,43 @@ class KeyRandomness:
             previous_bit = bit
 
         return True
+
+    def check_poker_test(self) -> bool:
+        """
+        Checks if the input sequence passes a Poker Test for randomness.
+
+        The Poker Test is used to assess the randomness of a binary sequence. It divides the sequence
+        into segments and calculates a statistic, X3, to determine whether the sequence exhibits patterns
+        or biases. If X3 falls within the specified range (POKER_LOWER_FREQUENCY, POKER_UPPER_FREQUENCY),
+        the sequence is considered random, and the method returns True. Otherwise, it returns False.
+
+        :return: True if the sequence is considered random by the Poker Test, False otherwise.
+        """
+
+        k = self.SEQUENCE_LENGTH // self.POKER_M
+        frequency_counter = {}
+
+        # count the number of times certain blocks occur
+        for i in range(k):
+            segment = self.input_sequence[i * self.POKER_M: (i + 1) * self.POKER_M]
+            if segment in frequency_counter:
+                frequency_counter[segment] += 1
+            else:
+                frequency_counter[segment] = 1
+
+        # summation
+        sum = 0
+        frequence_list = list(frequency_counter.values())
+        for i in range(0, 2 ** self.POKER_M):
+            try:
+                sum += frequence_list[i] ** 2
+            # IndexError raises when the number of unique Poker blocks is less than 16
+            # in this case, the formula for calculating X3 does not work
+            except IndexError:
+                return False
+
+        x3 = 2 ** self.POKER_M / k * sum - k
+
+        if self.POKER_LOWER_FREQUENCY < x3 < self.POKER_UPPER_FREQUENCY:
+            return True
+        return False
