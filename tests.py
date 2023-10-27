@@ -9,8 +9,7 @@ class TestKeyRandomness(unittest.TestCase):
     def setUp(self):
         self.random_sequences = (generate_random_sequence("01", 20000) for _ in range(5))
 
-    @unittest.skip
-    def test_key_randomness(self, test_function_name):
+    def key_randomness(self, test_function_name):
         for sequence in self.random_sequences:
             with self.subTest(sequence=sequence):
                 key_randomness = KeyRandomness(sequence)
@@ -18,10 +17,10 @@ class TestKeyRandomness(unittest.TestCase):
                 self.assertTrue(test_function())
 
     def test_monobit(self):
-        self.test_key_randomness("monobit")
+        self.key_randomness("monobit")
 
     def test_check_max_series_length(self):
-        self.test_key_randomness("check_max_series_length")
+        self.key_randomness("check_max_series_length")
 
 
 if __name__ == '__main__':

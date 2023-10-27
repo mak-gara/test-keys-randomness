@@ -5,8 +5,8 @@ class KeyRandomness:
     """Class for assessing the randomness of a binary key sequence."""
 
     SEQUENCE_LENGTH = 20000
-    LOWER_FREQUENCY_BOUND = 9654
-    UPPER_FREQUENCY_BOUND = 10346
+    MONOBIT_LOWER_FREQUENCY = 9654
+    MONOBIT_UPPER_FREQUENCY = 10346
     MAX_SERIES_LENGTH = 36
     POKER_M = 4
     POKER_LOWER_FREQUENCY = 1.03
@@ -36,7 +36,7 @@ class KeyRandomness:
         Performs the Monobit Frequency Test to assess the randomness of the binary sequence.
 
         :return: If the frequency of zeros in the binary code is in the range
-        from LOWER_FREQUENCY_BOUND to UPPER_FREQUENCY_BOUND, not inclusive, then True, otherwise - False.
+        from MONOBIT_LOWER_FREQUENCY to MONOBIT_UPPER_FREQUENCY, not inclusive, then True, otherwise - False.
         """
 
         count = 0
@@ -45,7 +45,7 @@ class KeyRandomness:
             if bit == "0":
                 count += 1
 
-        if self.LOWER_FREQUENCY_BOUND < count < self.UPPER_FREQUENCY_BOUND:
+        if self.MONOBIT_LOWER_FREQUENCY < count < self.MONOBIT_UPPER_FREQUENCY:
             return True
         return False
 
