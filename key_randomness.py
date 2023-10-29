@@ -11,6 +11,14 @@ class KeyRandomness:
     POKER_M = 4
     POKER_LOWER_FREQUENCY = 1.03
     POKER_UPPER_FREQUENCY = 57.4
+    SERIES_LENGTH = [
+        [2267, 2733],
+        [1079, 1421],
+        [502, 748],
+        [223, 402],
+        [90, 223],
+        [90, 223]
+    ]
 
     def __init__(self, sequence: str) -> None:
         """
@@ -112,3 +120,39 @@ class KeyRandomness:
         if self.POKER_LOWER_FREQUENCY < x3 < self.POKER_UPPER_FREQUENCY:
             return True
         return False
+
+    def check_series_length(self) -> bool:
+        """
+        Check if the series length complies with predefined criteria.
+
+        :return: True if the series length meets the defined criteria, False otherwise.
+        """
+
+        # frequency counter for tracking the occurrence of series lengths
+        frequency_counter = [
+            [0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0]
+        ]
+
+        previous_bit = self.input_sequence[0]
+        counter = 1  # stores the length of the series
+
+        # iterate through the input sequence to count series lengths
+        for i in range(1, len(self.input_sequence)):
+            bit = self.input_sequence[i]
+            if bit == previous_bit:
+                counter += 1
+            else:
+                if counter >= 6:
+                    frequency_counter[int(previous_bit)][-1] += 1
+                else:
+                    frequency_counter[int(previous_bit)][counter - 1] += 1
+                counter = 1
+            previous_bit = bit
+
+        # check that the series of zeros and ones occur a valid number of times
+        for i in range(len(self.SERIES_LENGTH)):
+            if not (self.SERIES_LENGTH[i][0] <= frequency_counter[0][i] <= self.SERIES_LENGTH[i][1] and
+                    self.SERIES_LENGTH[i][0] <= frequency_counter[1][i] <= self.SERIES_LENGTH[i][1]):
+                return False
+        return True
