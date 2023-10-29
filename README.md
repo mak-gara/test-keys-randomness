@@ -9,6 +9,10 @@ This project implements the following tests to check the randomness of sequences
 
 These tests allow you to assess the statistical randomness of bit sequences. If the sequence fails the randomness tests, it may indicate the presence of some patterns or deviations from a random distribution, which can threaten the security of cryptographic systems.
 
+## Python Version Compatibility
+
+This project is developed using Python version 3.10.7. While it may be possible to run the project on earlier Python versions, it is important to note that doing so might result in unexpected side effects or errors. For optimal performance and to prevent potential issues, it's recommended to use Python version 3.10.7 or higher.
+
 ## Usage
 
 ### Generation of random sequences for testing
