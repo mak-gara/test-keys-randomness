@@ -25,6 +25,9 @@ class TestKeyRandomness(unittest.TestCase):
     def test_check_poker_test(self):
         self.key_randomness("check_poker_test")
 
+    def test_check_series_length(self):
+        self.key_randomness("check_series_length")
+
 
 if __name__ == '__main__':
     unittest.main()
